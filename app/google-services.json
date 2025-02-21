@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "407688199761",
-    "project_id": "pdm-usuario",
-    "storage_bucket": "pdm-usuario.appspot.com"
+    "project_number": "6708254102",
+    "project_id": "pratica-pdm",
+    "storage_bucket": "pratica-pdm.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:407688199761:android:48c8849ef9d5fcfe60c270",
+        "mobilesdk_app_id": "1:6708254102:android:6043b163a422e8d223b9b7",
         "android_client_info": {
           "package_name": "com.example.navegacao1"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDPJwj89vpuaN5kInBJrsDD5HauDAzoLo8"
+          "current_key": "AIzaSyBUXI4YQ1aaIKJNuRh5Qk9beP9xlqoVVxY"
         }
       ],
       "services": {
