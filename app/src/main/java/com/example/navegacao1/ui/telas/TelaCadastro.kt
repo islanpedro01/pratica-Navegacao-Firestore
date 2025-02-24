@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -24,52 +23,63 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.navegacao1.model.dados.UsuarioDAO
+import com.example.navegacao1.model.dados.Usuario
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-val usuarioDAO: UsuarioDAO = UsuarioDAO()
+
 
 @Composable
-fun TelaLogin(modifier: Modifier = Modifier, onSigninClick: () -> Unit, onCadastroClick: () -> Unit) {
-    val context = LocalContext.current
+fun TelaCadastro(modifier: Modifier = Modifier, onLoginClick: () -> Unit, onSignUpClick: () -> Unit) {
     var scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
-    var login by remember {mutableStateOf("")}
-    var senha by remember {mutableStateOf("")}
+    var nome by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
+    var usuario = Usuario("", "")
     var mensagemErro by remember { mutableStateOf<String?>(null) }
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxWidth()) {
-        Text(text = "LOGIN")
-        OutlinedTextField(value = login, onValueChange = {login = it}, label = { Text(text = "Login")})
-        Spacer(modifier =  Modifier.height(10.dp))
-        OutlinedTextField(value = senha, visualTransformation = PasswordVisualTransformation(),
-            onValueChange = {senha = it}, label = { Text(text = "Senha")})
-        Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            Button(modifier = modifier.size(125.dp, 50.dp), onClick = onCadastroClick) {
-                Text("Cadastre-se")
-            }
 
+    Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = "CADASTRO")
+        OutlinedTextField(
+            value = nome,
+            onValueChange = { nome = it },
+            label = { Text(text = "Nome") })
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(value = senha, visualTransformation = PasswordVisualTransformation(),
+            onValueChange = { senha = it }, label = { Text(text = "Senha") })
+
+        Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Button(modifier = modifier.size(125.dp, 50.dp), onClick = onLoginClick) {
+                Text("Voltar")
+            }
             Button(modifier = modifier.size(125.dp, 50.dp), onClick = {
+                usuario.nome = nome
+                usuario.senha = senha
                 scope.launch(Dispatchers.IO) {
-                    usuarioDAO.buscarPorNome(login, callback = { usuario ->
-                        if (usuario != null && usuario.senha == senha) {
-                            onSigninClick()
+                    usuarioDAO.adicionar(usuario, callback = { usuario ->
+                        if (nome.isNotEmpty() and senha.isNotEmpty()) {
+                            onSignUpClick()
                         } else {
-                            mensagemErro = "Login ou senha inválidos!"
+                            mensagemErro = "Nome e senha não podem estar em branco!"
                         }
                     })
-                }
-            }) {
-                Text("Entrar")
-            }
 
-        }
-        mensagemErro?.let {
-            LaunchedEffect(it) {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                mensagemErro = null
+                }
+
+            }) {
+                Text("Cadastrar")
+            }
+            mensagemErro?.let {
+                LaunchedEffect(it) {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    mensagemErro = null
+                }
             }
         }
     }
+    }
 
-}
+
+
+

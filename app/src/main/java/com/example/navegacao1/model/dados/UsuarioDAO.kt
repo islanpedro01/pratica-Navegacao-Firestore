@@ -52,9 +52,21 @@ class UsuarioDAO {
     }
 
 
-    fun adicionar(usuario: Usuario, callback: (Usuario) -> Unit) {
+    fun adicionar(usuario: Usuario, callback: (Usuario?) -> Unit) {
         //TODO implemente adicionar
+        db.collection("usuarios").add(usuario)
+            .addOnSuccessListener { document ->
+                if (document != null){
+                    callback(usuario)
 
+                }else {
+                    callback(null)
+                }
+
+            }
+            .addOnFailureListener{
+                callback(null)
+            }
 
     }
 

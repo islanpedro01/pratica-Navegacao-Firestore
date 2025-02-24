@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.navegacao1.ui.telas.TelaLogin
 import com.example.navegacao1.ui.telas.TelaPrincipal
+import com.example.navegacao1.ui.telas.TelaCadastro
 import com.example.navegacao1.ui.theme.Navegacao1Theme
 import com.google.firebase.FirebaseApp
 
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Login") },
+                            title = { Text("") },
                             Modifier.background(MaterialTheme.colorScheme.secondary)
                         )
                     },
@@ -43,13 +44,21 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "login") {
                         composable("login") {
                             TelaLogin(modifier = Modifier.padding(innerPadding), onSigninClick = {
-                                navController.navigate("principal")
+                                navController.navigate("principal")}, onCadastroClick = {
+                                    navController.navigate("cadastro")
                             })
                         }
                         composable("principal") {
                             TelaPrincipal(modifier = Modifier.padding(innerPadding), onLogoffClick = {
                                 navController.navigate("login")
                             })
+                        }
+                        composable("cadastro"){
+                            TelaCadastro(modifier = Modifier.padding(innerPadding), onLoginClick = {
+                                navController.navigate("login")}, onSignUpClick = {
+                                    navController.navigate("login")
+                            })
+
                         }
                     }
 

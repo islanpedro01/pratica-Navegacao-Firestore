@@ -6,6 +6,6 @@ data class Usuario(
     //TODO defina uma propriedade chamada Id, de tipo String
     @DocumentId
     val id: String = "",
-    val nome: String = "",
-    val senha: String = ""
+    var nome: String = "",
+    var senha: String = ""
 )
